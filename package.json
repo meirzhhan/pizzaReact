@@ -24,6 +24,23 @@
       "react-app/jest"
     ]
   },
+  "rules": {
+    "no-unused-vars": "warn",
+    "prefer-const": "warn",
+    "no-console": "warn",
+    "quotes": [
+      "warn",
+      "single"
+    ],
+    "jsx-quotes": [
+      "warn",
+      "prefer-double"
+    ],
+    "semi": [
+      "warn",
+      "always"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
