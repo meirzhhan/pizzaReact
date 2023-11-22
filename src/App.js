@@ -4,7 +4,7 @@ import Header from './components/Header';
 import './scss/app.scss';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Cart from './pages/Cart';
 
 function App() {
