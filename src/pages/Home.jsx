@@ -5,7 +5,7 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 
-const Home = () => {
+const Home = ({ searchValue }) => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,9 +19,10 @@ const Home = () => {
 
     const sortBy = sortType.sortProperty.replace('-', '');
     const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
 
     fetch(
-      `https://655cfbb325b76d9884fe3e3a.mockapi.io/items?${category}&sortBy=${sortBy}&order=${orderType}`,
+      `https://655cfbb325b76d9884fe3e3a.mockapi.io/items?${category}&sortBy=${sortBy}&order=${orderType}${search}`,
     )
       .then((res) => res.json())
       .then((arr) => {
@@ -29,7 +30,10 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, orderType]);
+  }, [categoryId, sortType, orderType, searchValue]);
+
+  const skeletons = [...new Array(8)].map((_, index) => <PizzaSkeleton key={index} />);
+  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
   return (
     <div className="container">
@@ -45,9 +49,7 @@ const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {/* Создает массив и мапит на 10 скелетонов */}
-        {isLoading
-          ? [...new Array(8)].map((_, index) => <PizzaSkeleton key={index} />)
-          : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+        {isLoading ? skeletons : pizzas}
       </div>
     </div>
   );
