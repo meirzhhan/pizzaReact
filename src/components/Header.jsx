@@ -10,7 +10,7 @@ const Header = () => {
           <div className="header__logo">
             <img width="38" src={logoSvg} alt="Pizza logo" />
             <div>
-              <h1>Онлайн Пиццерия</h1>
+              <h1>Пиццерия</h1>
               <p>самая вкусная пицца в Казахстане</p>
             </div>
           </div>

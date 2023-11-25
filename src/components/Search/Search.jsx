@@ -1,10 +1,34 @@
-import React, { useContext } from 'react';
-
-import cl from './Search.module.scss';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { SearchContext } from '../../App';
 
+import cl from './Search.module.scss';
+import debounce from 'lodash.debounce';
+
 const Search = () => {
-  const { searchValue, setSearchValue } = useContext(SearchContext);
+  const [value, setValue] = useState(''); //Локальный стэйт. Чтобы моментально поулчать инпут вэлью
+  const { setSearchValue } = useContext(SearchContext); // глобальный стейт, чтобы поменять вэлью в редаксе
+  const inputRef = useRef();
+
+  const onClickClear = () => {
+    setValue('');
+    setSearchValue('');
+    inputRef.current.focus();
+  };
+
+  // Сохраняет ссылку на функцию. Предотвращает пересоздание функции при ререндере
+  const updateSearchValue = useCallback(
+    // отложенная функция. Сюда вэлью не попадает моментально, по этому создал локальный стэйт вэлью и вызываю ниже
+    debounce((str) => {
+      console.log(str);
+      setSearchValue(str);
+    }, 350),
+    [],
+  );
+
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
 
   return (
     <div className={cl.root}>
@@ -21,14 +45,15 @@ const Search = () => {
         />
       </svg>
       <input
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        ref={inputRef}
+        value={value}
+        onChange={onChangeInput}
         className={cl.input}
         placeholder="Поиск пиццы..."
       />
-      {searchValue && (
+      {value && (
         <svg
-          onClick={() => setSearchValue('')}
+          onClick={onClickClear}
           className={cl.clearIcon}
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
