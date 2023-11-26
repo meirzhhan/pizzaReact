@@ -16,6 +16,7 @@ const Search = () => {
   };
 
   // Сохраняет ссылку на функцию. Предотвращает пересоздание функции при ререндере
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = useCallback(
     // отложенная функция. Сюда вэлью не попадает моментально, по этому создал локальный стэйт вэлью и вызываю ниже
     debounce((str) => {
