@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSortByOrder, setSortByType } from '../redux/slices/filterSlice';
+import { useRef } from 'react';
+import { useEffect } from 'react';
 
 export const sortList = [
   { name: 'популярности', sortProperty: 'rating' },
@@ -11,6 +13,7 @@ export const sortList = [
 const Sort = () => {
   const dispatch = useDispatch();
   const { sortByType, sortyByOrder } = useSelector((state) => state.filter);
+  const sortRef = useRef();
 
   const [open, setOpen] = useState(false);
 
@@ -19,8 +22,20 @@ const Sort = () => {
     setOpen(false);
   };
 
+  // Клик вне области (mount, unmount)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setOpen(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <b>Сортировка по:</b>
         <span onClick={() => setOpen(!open)}>{sortByType.name}</span>
