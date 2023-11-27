@@ -7,6 +7,7 @@ import {
   setCategoryId,
   setCurrentPage,
   setFilters,
+  setSortByOrder,
   setSortByType,
 } from '../redux/slices/filterSlice';
 import axios from 'axios';
@@ -105,6 +106,7 @@ const Home = () => {
 
   const skeletons = [...new Array(4)].map((_, index) => <PizzaSkeleton key={index} />);
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+
   return (
     <div className="container">
       <div className="content__top">
@@ -118,5 +120,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

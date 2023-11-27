@@ -2,20 +2,46 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   totalPrice: 0,
+  // totalCount: 0,
   items: [],
 };
 
-export const filterSlice = createSlice({
+export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // actions
-    addProduct: (state, action) => {
-      state.items.push(action.payload);
+    addItem: (state, action) => {
+      const findItem = state.items.find((obj) => obj.id === action.payload.id);
+      if (findItem) {
+        findItem.count++;
+      } else {
+        state.items.push({
+          ...action.payload,
+          count: 1,
+        });
+      }
+      state.totalPrice += action.payload.price;
+    },
+
+    minusItem(state, action) {
+      const findItem = state.items.find((obj) => obj.id === action.payload.id);
+      findItem.count--;
+      state.totalPrice -= action.payload.price;
+    },
+
+    removeItem: (state, action) => {
+      // state.items = state.items.filter((obj) => obj.id === action.payload);
+      // const findItem = state.items.find((obj) => obj.id === action.payload.id);
+      // state.totalPrice -= findItem.price * findItem.count;
+      state.items = state.items.filter((obj) => obj.id !== action.payload.id);
+      state.totalPrice -= action.payload.price * action.payload.count;
+    },
+    clearItems: (state) => {
+      state.items = [];
+      state.totalPrice = 0;
     },
   },
 });
-export const { setCategoryId, setSortByType, setSortByOrder, setCurrentPage, setFilters } =
-  filterSlice.actions;
+export const { addItem, removeItem, clearItems, minusItem } = cartSlice.actions;
 
-export default filterSlice.reducer;
+export default cartSlice.reducer;
