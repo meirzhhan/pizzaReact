@@ -12,7 +12,7 @@ export const sortList = [
 
 const Sort = () => {
   const dispatch = useDispatch();
-  const { sortByType, sortyByOrder } = useSelector((state) => state.filter);
+  const { sortByType, sortByOrder } = useSelector((state) => state.filter);
   const sortRef = useRef();
 
   const [open, setOpen] = useState(false);
@@ -41,12 +41,12 @@ const Sort = () => {
         <span onClick={() => setOpen(!open)}>{sortByType.name}</span>
         <button
           onClick={() => dispatch(setSortByOrder('asc'))}
-          className={sortyByOrder === 'asc' ? 'activeButton' : ''}>
+          className={sortByOrder === 'asc' ? 'activeButton' : ''}>
           ↑
         </button>
         <button
           onClick={() => dispatch(setSortByOrder('desc'))}
-          className={sortyByOrder === 'desc' ? 'activeButton' : ''}>
+          className={sortByOrder === 'desc' ? 'activeButton' : ''}>
           ↓
         </button>
       </div>

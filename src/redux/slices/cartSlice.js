@@ -6,7 +6,7 @@ const initialState = {
   items: [],
 };
 
-export const cartSlice = createSlice({
+const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
@@ -30,9 +30,6 @@ export const cartSlice = createSlice({
     },
 
     removeItem: (state, action) => {
-      // state.items = state.items.filter((obj) => obj.id === action.payload);
-      // const findItem = state.items.find((obj) => obj.id === action.payload.id);
-      // state.totalPrice -= findItem.price * findItem.count;
       state.items = state.items.filter((obj) => obj.id !== action.payload.id);
       state.totalPrice -= action.payload.price * action.payload.count;
     },
