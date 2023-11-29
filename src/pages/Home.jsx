@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SearchContext } from '../App';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  selectFilter,
   setCategoryId,
   setCurrentPage,
   setFilters,
   setSortByType,
 } from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizzaState } from '../redux/slices/pizzaSlice';
 import qs from 'qs';
 
 import Categories from '../components/Categories';
@@ -16,7 +17,6 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Pagination from '../components/Pagination/Pagination';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,9 +24,9 @@ const Home = () => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const { items, status } = useSelector((state) => state.pizza);
-  const { categoryId, sortByType, sortByOrder, currentPage } = useSelector((state) => state.filter);
-  const { searchValue } = useContext(SearchContext);
+  const { items, status } = useSelector(selectPizzaState);
+  const { searchValue, categoryId, sortByType, sortByOrder, currentPage } =
+    useSelector(selectFilter);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));

@@ -1,17 +1,18 @@
-import React, { useCallback, useContext, useRef, useState } from 'react';
-import { SearchContext } from '../../App';
+import React, { useCallback, useRef, useState } from 'react';
 
 import cl from './Search.module.scss';
 import debounce from 'lodash.debounce';
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../../redux/slices/filterSlice';
 
 const Search = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState(''); //Локальный стэйт. Чтобы моментально поулчать инпут вэлью
-  const { setSearchValue } = useContext(SearchContext); // глобальный стейт, чтобы поменять вэлью в редаксе
   const inputRef = useRef();
 
   const onClickClear = () => {
+    dispatch(setSearchValue(''));
     setValue('');
-    setSearchValue('');
     inputRef.current.focus();
   };
 
@@ -21,7 +22,7 @@ const Search = () => {
     // отложенная функция. Сюда вэлью не попадает моментально, по этому создал локальный стэйт вэлью и вызываю ниже
     debounce((str) => {
       console.log(str);
-      setSearchValue(str);
+      dispatch(setSearchValue(str));
     }, 350),
     [],
   );
