@@ -39,12 +39,12 @@ const pizzaSlice = createSlice({
         state.items = [];
       })
       .addCase(fetchPizzas.fulfilled, (state, action) => {
-        console.log(action, 'fullfilled');
+        // console.log(action, 'fullfilled');
         state.items = action.payload;
         state.status = 'success';
       })
       .addCase(fetchPizzas.rejected, (state, action) => {
-        console.log(action, 'rejected');
+        // console.log(action, 'rejected');
         state.status = 'error';
         state.items = [];
       });
