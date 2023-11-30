@@ -1,9 +1,13 @@
-import React from 'react';
 import ReactPaginate from 'react-paginate'; //https://github.com/AdeleD/react-paginate
 
 import cl from './Pagination.module.scss';
 
-const Pagination = ({ currentPage, onChangePage }) => {
+type PaginationProps = {
+  currentPage: number;
+  onChangePage: any;
+};
+
+const Pagination: React.FC<PaginationProps> = ({ currentPage, onChangePage }) => {
   return (
     <ReactPaginate
       className={cl.root}
@@ -14,7 +18,6 @@ const Pagination = ({ currentPage, onChangePage }) => {
       pageRangeDisplayed={4}
       pageCount={3}
       forcePage={currentPage - 1}
-      renderOnZeroPageCount={null}
     />
   );
 };

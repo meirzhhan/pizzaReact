@@ -16,10 +16,16 @@
   }
 
   &__title {
+    cursor: pointer;
     font-size: 20px;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: 1%;
     margin-bottom: 20px;
+    width: fit-content;
+    margin: 0 auto 20px auto;
+  }
+  &__title:hover {
+    font-weight: 800;
   }
 
   &__selector {

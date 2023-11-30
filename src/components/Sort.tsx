@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter, setSortByOrder, setSortByType } from '../redux/slices/filterSlice';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 
-export const sortList = [
+type SortListItem = {
+  name: string;
+  sortProperty: string;
+};
+
+export const sortList: SortListItem[] = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: 'title' },
@@ -13,18 +18,18 @@ export const sortList = [
 const Sort = () => {
   const dispatch = useDispatch();
   const { sortByType, sortByOrder } = useSelector(selectFilter);
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState(false);
 
-  const onClickListItem = (obj) => {
+  const onClickListItem = (obj: SortListItem) => {
     dispatch(setSortByType(obj));
     setOpen(false);
   };
 
   // Клик вне области (mount, unmount)
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (!event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }

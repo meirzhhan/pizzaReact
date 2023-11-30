@@ -1,33 +1,33 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import cl from './Search.module.scss';
+// @ts-ignore
 import debounce from 'lodash.debounce';
 import { useDispatch } from 'react-redux';
 import { setSearchValue } from '../../redux/slices/filterSlice';
 
-const Search = () => {
+const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState(''); //Локальный стэйт. Чтобы моментально поулчать инпут вэлью
-  const inputRef = useRef();
+  const [value, setValue] = useState<string>(''); //Локальный стэйт. Чтобы моментально поулчать инпут вэлью
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
     dispatch(setSearchValue(''));
     setValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus(); //optional chaining. Выполняет, только если будет кюррент
   };
 
   // Сохраняет ссылку на функцию. Предотвращает пересоздание функции при ререндере
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = useCallback(
-    // отложенная функция. Сюда вэлью не попадает моментально, по этому создал локальный стэйт вэлью и вызываю ниже
-    debounce((str) => {
-      console.log(str);
+    debounce((str: string) => {
+      // console.log(str);
       dispatch(setSearchValue(str));
     }, 350),
     [],
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: any) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };

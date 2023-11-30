@@ -1,8 +1,17 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
-const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
+type CartItemProps = {
+  id: string; //mockapi не возращает, если айди === намбер
+  imageUrl: string;
+  title: string;
+  type: string;
+  size: number;
+  price: number;
+  count: number;
+};
+
+const CartItem: React.FC<CartItemProps> = ({ id, imageUrl, title, type, size, price, count }) => {
   const dispatch = useDispatch();
 
   const oncClickPlus = () => {
