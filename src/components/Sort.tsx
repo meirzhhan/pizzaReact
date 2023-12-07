@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter, setSortByOrder, setSortByType } from '../redux/slices/filterSlice';
 import { useRef } from 'react';
@@ -20,7 +20,7 @@ const Sort = () => {
   const { sortByType, sortByOrder } = useSelector(selectFilter);
   const sortRef = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const onClickListItem = (obj: SortListItem) => {
     dispatch(setSortByType(obj));
@@ -29,8 +29,8 @@ const Sort = () => {
 
   // Клик вне области (mount, unmount)
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
     };

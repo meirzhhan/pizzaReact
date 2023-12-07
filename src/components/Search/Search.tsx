@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 
 import cl from './Search.module.scss';
 // @ts-ignore
@@ -27,7 +27,7 @@ const Search: React.FC = () => {
     [],
   );
 
-  const onChangeInput = (event: any) => {
+  const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
@@ -47,10 +47,10 @@ const Search: React.FC = () => {
         />
       </svg>
       <input
+        className={cl.input}
         ref={inputRef}
         value={value}
         onChange={onChangeInput}
-        className={cl.input}
         placeholder="Поиск пиццы..."
       />
       {value && (
