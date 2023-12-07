@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { RootState } from '../store';
 
 // Асинхронный Action. это пердается в экстра редюсеры
 //mockapi не возвращает все элементы, по этому пагинация будет статично заданным
@@ -19,7 +20,20 @@ export const fetchPizzas = createAsyncThunk('pizza/fetchPizzasStatus', async (pa
   return data;
 });
 
-const initialState = {
+type Pizza = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
+interface PizzaSliceState {
+  items: Pizza[];
+  status: 'loading' | 'success' | 'error';
+}
+
+const initialState: PizzaSliceState = {
   items: [],
   status: 'loading',
 };
@@ -51,7 +65,7 @@ const pizzaSlice = createSlice({
   },
 });
 
-export const selectPizzaState = (state) => state.pizza;
+export const selectPizzaState = (state: RootState) => state.pizza;
 
 export const { setItems } = pizzaSlice.actions;
 

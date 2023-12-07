@@ -29,7 +29,7 @@ const Sort = () => {
 
   // Клик вне области (mount, unmount)
   useEffect(() => {
-    const handleClickOutside = (event: globalThis.MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
