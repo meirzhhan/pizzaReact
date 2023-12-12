@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
+  FilterSliceState,
+  TSort,
   selectFilter,
   setCategoryId,
   setCurrentPage,
@@ -17,10 +19,11 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Pagination from '../components/Pagination/Pagination';
+import { useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch(); // const dispatch = useDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
@@ -41,12 +44,11 @@ const Home: React.FC = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         property,
         category,
         search,
-        currentPage,
+        currentPage: String(currentPage),
         sortByOrder,
       }),
     );
@@ -56,7 +58,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
-        categoryId,
+        categoryId: categoryId > 0 ? categoryId : 0,
         sortProperty: sortByType.sortProperty,
         sortByOrder,
         currentPage,
@@ -76,13 +78,13 @@ const Home: React.FC = () => {
       dispatch(
         setFilters({
           ...params,
-        }),
+        } as unknown as FilterSliceState),
       );
       dispatch(
         setSortByType({
           name: sortByType.name,
           sortProperty: params.sortProperty,
-        }),
+        } as TSort),
       );
       isSearch.current = true;
     }

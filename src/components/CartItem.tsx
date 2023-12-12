@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
+import { TCartItems, addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
 type CartItemProps = {
   id: string; //mockapi не возращает, если айди === намбер
@@ -15,17 +15,17 @@ const CartItem: React.FC<CartItemProps> = ({ id, imageUrl, title, type, size, pr
   const dispatch = useDispatch();
 
   const oncClickPlus = () => {
-    dispatch(addItem({ id, price }));
+    dispatch(addItem({ id, price } as TCartItems));
   };
   const oncClickMinus = () => {
     if (count !== 1) {
-      dispatch(minusItem({ id, price }));
+      dispatch(minusItem({ id, price } as TCartItems));
     } else {
-      dispatch(removeItem({ id, price, count }));
+      dispatch(removeItem({ id, price, count } as TCartItems));
     }
   };
   const onClickRemove = () => {
-    dispatch(removeItem({ id, price, count }));
+    dispatch(removeItem({ id, price, count } as TCartItems));
   };
 
   return (

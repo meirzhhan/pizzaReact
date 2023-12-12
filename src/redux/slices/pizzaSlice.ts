@@ -11,7 +11,7 @@ type Pizza = {
   types: number[];
 };
 
-enum Status {
+export enum Status {
   LOADING = 'loading',
   SUCCESS = 'success',
   ERROR = 'error',
@@ -26,11 +26,18 @@ const initialState: PizzaSliceState = {
   status: Status.LOADING,
 };
 
-// Record<string, string> все его ключи строчки, всего значения намбер
+export type SearchPizzaParams = {
+  property: string;
+  category: string;
+  search: string;
+  currentPage: string;
+  sortByOrder: string;
+};
 
+// Record<string, string> все его ключи строчки, всего значения намбер
 // Асинхронный Action. это пердается в экстра редюсеры
 //mockapi не возвращает все элементы, по этому пагинация будет статично заданным
-export const fetchPizzas = createAsyncThunk<Pizza[], Record<string, string>>( //<Returned, ThunkArg = void>
+export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams>( //<Returned, ThunkArg = void>
   'pizza/fetchPizzasStatus',
   async (params) => {
     const { property, category, search, currentPage, sortByOrder } = params;
