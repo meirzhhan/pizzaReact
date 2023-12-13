@@ -210,6 +210,14 @@ body {
             display: none;
           }
         }
+
+        &:disabled {
+          pointer-events: none;
+          border-color: #5756564a;
+          svg path {
+            fill: #5756564a;
+          }
+        }
       }
 
       b {

@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { TSort, selectFilter, setSortByOrder, setSortByType } from '../redux/slices/filterSlice';
+import { memo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { TSort, setSortByOrder, setSortByType } from '../redux/slices/filterSlice';
 import { useRef } from 'react';
 import { useEffect } from 'react';
-
-// type SortListItem = {
-//   name: string;
-//   sortProperty: TSort;
-// };
+import { useWhyDidYouUpdate } from 'ahooks';
 
 export const sortList: TSort[] = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: 'title' },
 ];
+type ISortProps = {
+  valueType: TSort;
+  valueOrder: string;
+};
 
-const Sort = () => {
+const Sort: React.FC<ISortProps> = memo(({ valueType, valueOrder }) => {
   const dispatch = useDispatch();
-  const { sortByType, sortByOrder } = useSelector(selectFilter);
+  // const { sortByType, sortByOrder } = useSelector(selectFilter);
   const sortRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState<boolean>(false);
@@ -39,19 +39,20 @@ const Sort = () => {
     return () => document.body.removeEventListener('click', handleClickOutside);
   }, []);
 
+  // useWhyDidYouUpdate('Sort', { valueType, valueOrder });
   return (
     <div ref={sortRef} className="sort">
       <div className="sort__label">
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sortByType.name}</span>
+        <span onClick={() => setOpen(!open)}>{valueType.name}</span>
         <button
           onClick={() => dispatch(setSortByOrder('asc'))}
-          className={sortByOrder === 'asc' ? 'activeButton' : ''}>
+          className={valueOrder === 'asc' ? 'activeButton' : ''}>
           ↑
         </button>
         <button
           onClick={() => dispatch(setSortByOrder('desc'))}
-          className={sortByOrder === 'desc' ? 'activeButton' : ''}>
+          className={valueOrder === 'desc' ? 'activeButton' : ''}>
           ↓
         </button>
       </div>
@@ -63,7 +64,7 @@ const Sort = () => {
               <li
                 key={i}
                 onClick={() => onClickListItem(obj)}
-                className={sortByType.sortProperty === obj.sortProperty ? 'active' : ''}>
+                className={valueType.sortProperty === obj.sortProperty ? 'active' : ''}>
                 {obj.name}
               </li>
             ))}
@@ -72,6 +73,6 @@ const Sort = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;

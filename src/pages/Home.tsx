@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -12,6 +12,8 @@ import {
   setSortByType,
 } from '../redux/slices/filterSlice';
 import { fetchPizzas, selectPizzaState } from '../redux/slices/pizzaSlice';
+import { useAppDispatch } from '../redux/store';
+
 import qs from 'qs';
 
 import Categories from '../components/Categories';
@@ -19,7 +21,6 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Pagination from '../components/Pagination/Pagination';
-import { useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -31,9 +32,9 @@ const Home: React.FC = () => {
   const { searchValue, categoryId, sortByType, sortByOrder, currentPage } =
     useSelector(selectFilter);
 
-  const onChangeCategory = (idx: number) => {
+  const onChangeCategory = useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
-  };
+  }, []);
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
@@ -64,7 +65,7 @@ const Home: React.FC = () => {
         currentPage,
       });
       navigate(`?${queryString}`);
-      console.log(queryString);
+      // console.log(queryString);
     }
 
     isMounted.current = true;
@@ -106,7 +107,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <Sort valueType={sortByType} valueOrder={sortByOrder} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
