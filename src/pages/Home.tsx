@@ -2,25 +2,20 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-  FilterSliceState,
-  TSort,
-  selectFilter,
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-  setSortByType,
-} from '../redux/slices/filterSlice';
-import { fetchPizzas, selectPizzaState } from '../redux/slices/pizzaSlice';
-import { useAppDispatch } from '../redux/store';
-
 import qs from 'qs';
+
+import { useAppDispatch } from '../redux/store';
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Pagination from '../components/Pagination/Pagination';
+import { selectPizzaState } from '../redux/pizza/selectors';
+import { selectFilter } from '../redux/filter/selectors';
+import { setCategoryId, setCurrentPage, setFilters, setSortByType } from '../redux/filter/slice';
+import { fetchPizzas } from '../redux/pizza/asyncActions';
+import { IFilterSliceState, TSort } from '../redux/filter/types';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -79,7 +74,7 @@ const Home: React.FC = () => {
       dispatch(
         setFilters({
           ...params,
-        } as unknown as FilterSliceState),
+        } as unknown as IFilterSliceState),
       );
       dispatch(
         setSortByType({

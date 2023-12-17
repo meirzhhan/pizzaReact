@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { TCartItems, addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
+import { addItem, minusItem, removeItem } from '../redux/cart/slice';
+import { TCartItems } from '../redux/cart/types';
 
 type CartItemProps = {
   id: string; //mockapi не возращает, если айди === намбер

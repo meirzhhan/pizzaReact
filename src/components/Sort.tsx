@@ -1,9 +1,9 @@
 import { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { TSort, setSortByOrder, setSortByType } from '../redux/slices/filterSlice';
 import { useRef } from 'react';
 import { useEffect } from 'react';
-import { useWhyDidYouUpdate } from 'ahooks';
+import { TSort } from '../redux/filter/types';
+import { setSortByOrder, setSortByType } from '../redux/filter/slice';
 
 export const sortList: TSort[] = [
   { name: 'популярности', sortProperty: 'rating' },
@@ -17,7 +17,6 @@ type ISortProps = {
 
 const Sort: React.FC<ISortProps> = memo(({ valueType, valueOrder }) => {
   const dispatch = useDispatch();
-  // const { sortByType, sortByOrder } = useSelector(selectFilter);
   const sortRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState<boolean>(false);
