@@ -1,16 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import qs from 'qs';
 
-import { useAppDispatch } from '../redux/store';
+import { Categories, Sort, PizzaBlock, PizzaSkeleton, Pagination } from '../components';
 
-import Categories from '../components/Categories';
-import Sort from '../components/Sort';
-import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
-import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
-import Pagination from '../components/Pagination/Pagination';
+import { useSelector } from 'react-redux';
+
+import { useAppDispatch } from '../redux/store';
 import { selectPizzaState } from '../redux/pizza/selectors';
 import { selectFilter } from '../redux/filter/selectors';
 import { setCategoryId, setCurrentPage, setFilters, setSortByType } from '../redux/filter/slice';
@@ -22,6 +19,12 @@ const Home: React.FC = () => {
   const dispatch = useAppDispatch(); // const dispatch = useDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
+
+  // Пример code splitting. Разделение бандла на чанки для оптимизации
+  // динамический import.(чанк(lazy loading))
+  import('../utils/math').then((math) => {
+    console.log(math.add(16, 26));
+  });
 
   const { items, status } = useSelector(selectPizzaState);
   const { searchValue, categoryId, sortByType, sortByOrder, currentPage } =
